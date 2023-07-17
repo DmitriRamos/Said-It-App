@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import React from "react";
-import { BsTwitter } from "react-icons/bs";
+import { LiaSpeakap } from "react-icons/lia";
 
 const SidebarLogo = () => {
   const router = useRouter();
@@ -10,7 +10,7 @@ const SidebarLogo = () => {
       onClick={() => router.push("/")}
       className="rounded-full h-14 w-14 p-4 flex items-center hover:bg-blue-300 hover bg-opacity-10 cursor-pointer transition"
     >
-      <BsTwitter size={28} color="white" />
+      <LiaSpeakap size={24} color="white" />
     </div>
   );
 };
