@@ -1,18 +1,35 @@
+import { signIn } from "next-auth/react";
 import React, { useCallback, useState } from "react";
 import useLoginModal from "../../hooks/useLoginModal";
+import useRegisterModal from "../../hooks/useRegisterModal";
 import Input from "../Input";
 import Modal from "../Modal";
 
 const LoginModal = () => {
   const loginModal = useLoginModal();
+  const registerModal = useRegisterModal();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  const onToggle = useCallback(() => {
+    if (isLoading) {
+      return;
+    }
+
+    loginModal.onClose();
+    registerModal.onOpen();
+  }, [isLoading, registerModal, loginModal]);
+
   const onSubmit = useCallback(async () => {
     try {
       setIsLoading(true);
+
+      await signIn("credentials", {
+        email,
+        password,
+      });
 
       loginModal.onClose();
     } catch (error) {
@@ -20,7 +37,21 @@ const LoginModal = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [loginModal]);
+  }, [loginModal, email, password]);
+
+  const footerContent = (
+    <div className="text-neutral-400 text-center mt-4">
+      <p>
+        {`Don't have an account? `}
+        <span
+          className="text-white cursor-pointer hover:underline"
+          onClick={onToggle}
+        >
+          Create account
+        </span>
+      </p>
+    </div>
+  );
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
@@ -32,6 +63,7 @@ const LoginModal = () => {
       />
       <Input
         placeholder="Password"
+        type="password"
         onChange={(e) => setPassword(e.target.value)}
         value={password}
         disabled={isLoading}
@@ -49,6 +81,7 @@ const LoginModal = () => {
         onClose={loginModal.onClose}
         onSubmit={onSubmit}
         body={bodyContent}
+        footer={footerContent}
       />
     </div>
   );

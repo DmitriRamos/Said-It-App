@@ -30,8 +30,6 @@ const Modal = (props: ModalProps) => {
     props.onSubmit();
   }, [props]);
 
-  console.log("xx", { title: props.title, isOpen: props.isOpen });
-
   if (!props.isOpen) {
     return null;
   }
