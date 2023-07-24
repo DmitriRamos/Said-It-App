@@ -41,7 +41,7 @@ const Avatar = (props: AvatarProps) => {
         fill
         style={{
           objectFit: "cover",
-          borderRadius: "100",
+          borderRadius: "100%",
         }}
         alt="Avatar"
         onClick={onClick}
