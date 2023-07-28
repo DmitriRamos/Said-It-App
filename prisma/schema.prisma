@@ -49,6 +49,7 @@ model Comment {
   body String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  usersName String
   userId String @db.ObjectId
   postId String @db.ObjectId
 

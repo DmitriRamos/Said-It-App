@@ -9,27 +9,27 @@ interface AvatarProps {
   hasBorder?: boolean;
 }
 
-const Avatar = (props: AvatarProps) => {
-  const { data: fetchedUser } = useUser(props.userId);
+const Avatar: React.FC<AvatarProps> = ({ userId, isLarge, hasBorder }) => {
+  const { data: fetchedUser } = useUser(userId);
   const router = useRouter();
 
   const onClick = useCallback(
     (event: any) => {
       event.stopPropagation();
 
-      const url = `/users/${props.userId}`;
+      const url = `/users/${userId}`;
 
       router.push(url);
     },
-    [router, props.userId]
+    [router, userId]
   );
 
   return (
     <div
       className={`
-   ${props.hasBorder ? "boerder-4 border-black" : ""}
-   ${props.isLarge ? "h-32" : "h-12"}
-   ${props.isLarge ? "w-32" : "w-12"}
+   ${hasBorder ? "boerder-4 border-black" : ""}
+   ${isLarge ? "h-32" : "h-12"}
+   ${isLarge ? "w-32" : "w-12"}
    rounded-full
    hover:opacity-90
    transition
