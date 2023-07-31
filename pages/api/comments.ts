@@ -29,6 +29,34 @@ export default async function handler(
       },
     });
 
+    try {
+      const post = await client.post.findUnique({
+        where: {
+          id: postId,
+        },
+      });
+
+      if (post?.userId) {
+        await client.notification.create({
+          data: {
+            body: "Someone replied to your tweet!",
+            userId: post.userId,
+          },
+        });
+
+        await client.user.update({
+          where: {
+            id: post.userId,
+          },
+          data: {
+            hasNotification: true,
+          },
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
     return res.status(200).json(comment);
   } catch (error) {
     console.log(error);
